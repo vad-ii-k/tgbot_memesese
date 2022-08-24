@@ -1,11 +1,12 @@
 import asyncio
 import logging
+from typing import List
 
 from aiogram import Bot
 from aiogram import exceptions
 
 
-async def send_message(bot: Bot, user_id, text: str, disable_notification: bool = False) -> bool:
+async def send_message(bot: Bot, user_id: int | str, text: str, disable_notification: bool = False) -> bool:
     try:
         await bot.send_message(user_id, text, disable_notification=disable_notification)
     except exceptions.TelegramForbiddenError:
@@ -22,7 +23,7 @@ async def send_message(bot: Bot, user_id, text: str, disable_notification: bool 
     return False
 
 
-async def broadcast(bot, users, text) -> int:
+async def broadcast(bot: Bot, users: List[int], text: str) -> int:
     """
     Simple broadcaster
     :return: Count of messages
