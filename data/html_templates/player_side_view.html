@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div align="center">
+        <p style="font-size: 25px">Ситуация</p>
+        <img src="C:\Users\vadii\PycharmProjects\tgbot_memesese\data\cards\situations\Задания_page-00{{ situation }}.jpg"
+             alt="Ошибка:(" width="240" border="2px">
+        <hr size="10px" color="pink"/>
+        <p style="font-size: 25px">Ваши мемесиси</p>
+        {% for meme in memes %}
+            <figure style="float: left; width: 300px; height: 230px; text-align: center; text-indent: 0;
+                    border: thin silver solid; margin: 0.2em; padding: 1px;">
+                <p><img src="C:\Users\vadii\PycharmProjects\tgbot_memesese\data\cards\memes\1 ({{ meme }}).jpg" alt="Ошибка:("
+                        style="max-width: 250px; max-height: 170px">
+                <figcaption style="font-size: 20px">{{ loop.index }}</figcaption>
+            </figure>
+        {% endfor %}
+    </div>
+</body>
+</html>
