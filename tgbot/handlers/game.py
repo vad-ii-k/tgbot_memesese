@@ -1,3 +1,4 @@
+import os
 from dataclasses import dataclass
 from random import shuffle
 from typing import List
@@ -56,6 +57,8 @@ async def login(message: Message, state: FSMContext):
     global num_of_players
     if num_of_players == 0:
         num_of_players = int(message.text)
+    elif num_of_players == len(players):
+        await message.answer("Вы лишний(")
     await state.set_state("entry")
     await message.answer("Введите имя:")
 
@@ -89,19 +92,18 @@ async def waiting_players(message: Message, state: FSMContext):
         shuffle(memes_deck)
         shuffle(situations_deck)
         await init_card_draw()
-    else:
-        players.pop()
-        await message.answer("Вы лишний(")
 
 
 async def mailing_templates(situation: int, player: Player):
-    results_filename = f"{player.id}.html"
+    results_filename = f"data/compiled_html_pages/html/{player.id}.html"
     environment = Environment(loader=FileSystemLoader("data/html_templates"))
     results_template = environment.get_template("player_side_view.html")
-    with open(results_filename, mode="w", encoding="utf-8") as results:
-        results.write(results_template.render(situation=situation, memes=player.cards))
 
-    hti = Html2Image(size=(1000, 1000), custom_flags=['--virtual-time-budget=10000', '--hide-scrollbars'])
+    cards_abspath = os.path.abspath("data/cards")
+    with open(results_filename, mode="w", encoding="utf-8") as results:
+        results.write(results_template.render(situation=situation, memes=player.cards, cards_abspath=cards_abspath))
+
+    hti = Html2Image(size=(1000, 1100), output_path="data/compiled_html_pages/png/")
     hti.screenshot(html_file=results_filename, save_as=f"{player.id}.png")
 
     builder = InlineKeyboardBuilder()
@@ -110,7 +112,7 @@ async def mailing_templates(situation: int, player: Player):
 
     await send_photo.SendPhoto(
         chat_id=player.id,
-        photo=FSInputFile(path=f"{player.id}.png"),
+        photo=FSInputFile(path=f"data/compiled_html_pages/png/{player.id}.png"),
         reply_markup=builder.as_markup()
     )
 
@@ -131,15 +133,17 @@ async def meme_choice_handler(callback: CallbackQuery):
         if callback.from_user.id == player.id:
             selected_cards.append(SelectedCard(num=player.cards.pop(int(callback.data)-1), player_name=player.name))
             if len(selected_cards) == num_of_players:
-                results_filename = "showdown.html"
+                results_filename = "data/compiled_html_pages/html/showdown.html"
                 environment = Environment(loader=FileSystemLoader("data/html_templates"))
                 results_template = environment.get_template("showdown_template.html")
-                with open(results_filename, mode="w", encoding="utf-8") as results:
-                    results.write(results_template.render(memes=selected_cards))
 
-                hti = Html2Image(size=(1000, 900), custom_flags=['--virtual-time-budget=10000', '--hide-scrollbars'])
-                hti.screenshot(html_file=results_filename, save_as=f"showdown.png")
-                await send_image_all_players("showdown.png")
+                cards_abspath = os.path.abspath("data/cards")
+                with open(results_filename, mode="w", encoding="utf-8") as results:
+                    results.write(results_template.render(memes=selected_cards, cards_abspath=cards_abspath))
+
+                hti = Html2Image(size=(1000, 900), output_path="data/compiled_html_pages/png/")
+                hti.screenshot(html_file=results_filename, save_as="showdown.png")
+                await send_image_all_players("data/compiled_html_pages/png/showdown.png")
 
 
 @player_router.message(commands=["continue"], state="gaming")
