@@ -50,7 +50,7 @@ async def new_game(message: Message, state: FSMContext):
     elif num_of_players == 0:
         await message.answer("🔄 Подождите создания комнаты...")
     elif num_of_players == len(players):
-        await message.answer("🛑 Вы лишний(")
+        await message.answer("🛑 Вы лишний!")
     else:
         await login(message, state)
 
@@ -167,6 +167,7 @@ async def next_card_draw(message: Message):
     for player in players:
         player.cards.append(memes_deck.pop())
         await create_player_side_view_photo(situation, player)
+        await send_player_side_view_message(player)
 
 
 @player_router.message(commands=["finish_game"], state="*")
