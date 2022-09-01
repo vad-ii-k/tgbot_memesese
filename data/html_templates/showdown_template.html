@@ -1,23 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <div align="center">
-        <hr size="10px" color="#D62466"/>
-        <p style="font-size: 35px; font-family: 'Comic Sans MS', serif; line-height: 0.2">Выбранные мемесиси игроков</p>
-        {% for meme in memes %}
-            <figure style="float: left; width: 300px; height: 230px; text-align: center; text-indent: 0;
-                    border: medium #D62466 solid; margin: 0.6em; padding: 1px; border-radius: 20px">
-                <p><img src="{{ cards_abspath }}\memes\meme ({{ meme.num }}).jpg"
-                        alt="Ошибка:(" style="max-width: 260px; max-height: 180px; border-radius: 10px">
-                <figcaption style="font-size: 25px; font-family: 'Comic Sans MS', serif; line-height: 0.1">
-                    {{ meme.player_name }}
-                </figcaption>
-            </figure>
-        {% endfor %}
-    </div>
-</body>
-</html>
+{% include 'header.html' %}
+<div align="center">
+    <hr/>
+    <p>Выбранные мемесиси игроков</p>
+    {% for meme in memes %}
+    <figure>
+        <img class="card" src="{{ cards_abspath }}\memes\meme ({{ meme.num }}).jpg" alt="Ошибка:(">
+        <figcaption>{{ meme.player_name }}</figcaption>
+    </figure>
+    {% endfor %}
+</div>
+{% include 'footer.html' %}
