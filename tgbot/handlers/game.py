@@ -1,9 +1,9 @@
 from aiogram import Router
 from aiogram.fsm.context import FSMContext
-from aiogram.types import Message, InlineKeyboardButton, CallbackQuery
-from aiogram.utils.keyboard import InlineKeyboardBuilder
+from aiogram.types import Message, CallbackQuery
 
 from tgbot.game.room import Player, GameRoom, SelectedCard
+from tgbot.keyboards.inline import get_keyboard_with_nums
 
 player_router = Router()
 room = GameRoom()
@@ -14,11 +14,9 @@ async def new_game(message: Message, state: FSMContext):
     if not room.room_is_active:
         room.room_is_active = True
         await state.set_state("creating")
-        builder = InlineKeyboardBuilder()
-        [builder.add(InlineKeyboardButton(text=str(num), callback_data=str(num))) for num in range(1, 9)]
         await message.answer(
             text="🆕 Выберите количество игроков:",
-            reply_markup=builder.as_markup(resize_keyboard=True, one_time_keyboard=True)
+            reply_markup=get_keyboard_with_nums(num_of_buttons=6)
         )
     elif room.num_of_players == 0:
         await message.answer("🔄 Подождите создания комнаты...")

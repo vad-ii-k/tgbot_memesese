@@ -4,10 +4,11 @@ from random import shuffle
 from typing import List
 
 from aiogram.methods import send_message, send_photo
-from aiogram.types import FSInputFile, InlineKeyboardButton
-from aiogram.utils.keyboard import InlineKeyboardBuilder
+from aiogram.types import FSInputFile
 from html2image import Html2Image
 from jinja2 import Environment, FileSystemLoader
+
+from tgbot.keyboards.inline import get_keyboard_with_nums
 
 
 @dataclass
@@ -65,14 +66,10 @@ class GameRoom:
 
     @staticmethod
     async def send_player_side_view_message(player: Player):
-        builder = InlineKeyboardBuilder()
-        for num in range(1, 7):
-            builder.add(InlineKeyboardButton(text=str(num), callback_data=str(num)))
-
         await send_photo.SendPhoto(
             chat_id=player.id,
             photo=FSInputFile(path=f"data/compiled_html_pages/png/{player.id}.png"),
-            reply_markup=builder.as_markup(),
+            reply_markup=get_keyboard_with_nums(num_of_buttons=6),
             caption="Выберите мем ⬇"
         )
 
