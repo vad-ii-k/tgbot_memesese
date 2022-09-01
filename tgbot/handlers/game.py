@@ -80,7 +80,7 @@ async def next_card_draw(message: Message):
         await room.send_player_side_view_message(player)
 
 
-@player_router.message(commands=["finish_game"], state="*")
+@player_router.message(commands=["finish_game"], state="gaming")
 async def finish_game(message: Message, state: FSMContext):
     global room
     await room.send_message_all_players("🏁 Игра закончена, можете начать новую!")
