@@ -51,15 +51,19 @@ class GameRoom:
             await self.create_player_side_view_photo(situation, player)
             await self.send_player_side_view_message(player)
 
-    @staticmethod
-    async def create_player_side_view_photo(situation: int, player: Player):
+    async def create_player_side_view_photo(self, situation: int, player: Player):
         results_filename = f"data/compiled_html_pages/html/{player.id}.html"
         environment = Environment(loader=FileSystemLoader("data/html_templates"))
         results_template = environment.get_template("player_side_view.html")
 
         cards_abspath = os.path.abspath("data/cards")
         with open(results_filename, mode="w", encoding="utf-8") as results:
-            results.write(results_template.render(situation=situation, memes=player.cards, cards_abspath=cards_abspath))
+            results.write(results_template.render(
+                players=self.players,
+                situation=situation,
+                memes=player.cards,
+                cards_abspath=cards_abspath
+            ))
 
         hti = Html2Image(size=(1000, 1100), output_path="data/compiled_html_pages/png/")
         hti.screenshot(html_file=results_filename, save_as=f"{player.id}.png")

@@ -1,14 +1,26 @@
 {% include 'header.html' %}
 <div align="center">
-    <p>Ситуация</p>
-    <img class="situation" src="{{ cards_abspath }}\situations\situation ({{ situation }}).jpg" alt="Ошибка:(">
-    <hr/>
-    <p>Ваши мемесиси</p>
-    {% for meme in memes %}
-    <figure>
-        <img class="card" src="{{ cards_abspath }}\memes\meme ({{ meme }}).jpg" alt="Ошибка:(">
-        <figcaption>{{ loop.index }}</figcaption>
-    </figure>
-    {% endfor %}
+    <div style="float:left; margin-left: 330px">
+        <p>Ситуация</p>
+        <img class="situation" src="{{ cards_abspath }}\situations\situation ({{ situation }}).jpg" alt="Ошибка:(">
+    </div>
+    <div style="float: left; width: 320px; height: 440px; margin-left: 35px; margin-top: 50px">
+        <p>Игроки</p>
+        <div align="left">
+            {% for player in players %}
+            <p>➖ {{ player.name }}</p>
+            {% endfor %}
+        </div>
+    </div>
+    <div>
+        <hr/>
+        <p>Ваши мемесиси</p>
+        {% for meme in memes %}
+        <figure>
+            <img class="card" src="{{ cards_abspath }}\memes\meme ({{ meme }}).jpg" alt="Ошибка:(">
+            <figcaption>{{ loop.index }}</figcaption>
+        </figure>
+        {% endfor %}
+    </div>
 </div>
 {% include 'footer.html' %}

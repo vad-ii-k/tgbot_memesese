@@ -16,7 +16,7 @@ async def new_game(message: Message, state: FSMContext):
         await state.set_state("creating")
         await message.answer(
             text="🆕 Выберите количество игроков:",
-            reply_markup=get_keyboard_with_nums(num_of_buttons=6)
+            reply_markup=get_keyboard_with_nums(num_of_buttons=8)
         )
     elif room.num_of_players == 0:
         await message.answer("🔄 Подождите создания комнаты...")
