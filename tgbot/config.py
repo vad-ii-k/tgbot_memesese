@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import List
 
+from aiogram.utils.i18n import I18n
 from environs import Env
 
 
@@ -49,3 +50,6 @@ def load_config(path: str = None):
         ),
         misc=Miscellaneous()
     )
+
+
+i18n = I18n(path="tgbot\\locales", default_locale="ru", domain="messages")

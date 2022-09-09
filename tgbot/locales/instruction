@@ -1,0 +1,24 @@
+Installation
+    Babel is required to make simple way to extract translation strings from your code
+    Can be installed from pip directly:
+        pip install Babel
+    or as aiogram extra dependency:
+        pip install aiogram[i18n]
+
+
+Deal with Babel
+    pybabel extract --input-dirs=. -o locales/messages.pot
+
+    pybabel init -i locales/messages.pot -d locales -D messages -l en
+    -i locales/messages.pot - pre-generated template
+    -d locales - translations directory
+    -D messages - translations domain
+    -l en - language. Can be changed to any other valid language code
+
+    pybabel compile -d locales -D messages
+
+When you change the code of your bot you need to update po & mo files
+    1. regenerate pot file:        pybabel extract --input-dirs=. -o locales/messages.pot
+    2. update po files:            pybabel update -d locales -D messages -i locales/messages.pot
+    3. update your translations:   just open the file named locales/{language}/LC_MESSAGES/messages.po and write translations
+    4. compile mo files:           pybabel compile -d locales -D messages

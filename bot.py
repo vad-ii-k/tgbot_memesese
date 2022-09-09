@@ -4,8 +4,9 @@ from typing import List
 
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.utils.i18n import SimpleI18nMiddleware
 
-from tgbot.config import load_config
+from tgbot.config import load_config, i18n
 from tgbot.handlers.admin import admin_router
 from tgbot.handlers.game import player_router
 from tgbot.middlewares.config import ConfigMiddleware
@@ -21,6 +22,7 @@ async def on_startup(bot: Bot, admin_ids: List[int]):
 def register_global_middlewares(dp: Dispatcher, config):
     dp.message.outer_middleware(ConfigMiddleware(config))
     dp.callback_query.outer_middleware(ConfigMiddleware(config))
+    dp.update.outer_middleware(SimpleI18nMiddleware(i18n))
 
 
 async def main():

@@ -5,6 +5,7 @@ from typing import List
 
 from aiogram.methods import send_message, send_photo
 from aiogram.types import FSInputFile
+from aiogram.utils.i18n import gettext as _
 from html2image import Html2Image
 from jinja2 import Environment, FileSystemLoader
 
@@ -44,10 +45,10 @@ class GameRoom:
     async def init_card_draw(self):
         shuffle(self.memes_deck)
         shuffle(self.situations_deck)
-        await self.send_message_all_players("🔥 Игра началась!")
+        await self.send_message_all_players(_("🔥 Игра началась!"))
         situation = self.situations_deck.pop()
         for player in self.players:
-            player.cards = [self.memes_deck.pop() for _ in range(6)]
+            player.cards = [self.memes_deck.pop() for i in range(6)]
             await self.create_player_side_view_photo(situation, player)
             await self.send_player_side_view_message(player)
 
@@ -74,7 +75,7 @@ class GameRoom:
             chat_id=player.id,
             photo=FSInputFile(path=f"data/compiled_html_pages/png/{player.id}.png"),
             reply_markup=get_keyboard_with_nums(num_of_buttons=6),
-            caption="Выберите мем ⬇"
+            caption=_("Выберите мем ⬇")
         )
 
     async def create_showdown_photo(self):
