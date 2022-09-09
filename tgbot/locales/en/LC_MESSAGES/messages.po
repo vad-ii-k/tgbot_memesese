@@ -1,0 +1,82 @@
+# English translations for PROJECT.
+# Copyright (C) 2022 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2022-09-09 16:35+0300\n"
+"PO-Revision-Date: 2022-09-09 15:27+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.10.3\n"
+
+#: game/room.py:48
+msgid "🔥 Игра началась!"
+msgstr "🔥 The game has started!"
+
+#: game/room.py:78
+msgid "Выберите мем ⬇"
+msgstr "Choose a meme ⬇"
+
+#: handlers/game.py:19
+msgid "🆕 Выберите количество игроков:)"
+msgstr "🆕 Select the number of players:)"
+
+#: handlers/game.py:23
+msgid "🔄 Подождите создания комнаты..."
+msgstr "🔄 Wait for the room to be created..."
+
+#: handlers/game.py:25
+msgid "🛑 Вы лишний!"
+msgstr "🛑 You are superfluous!"
+
+#: handlers/game.py:33
+msgid "✅ Комната создана!"
+msgstr "✅ The room has been created!"
+
+#: handlers/game.py:40
+msgid "🔤 Введите имя:"
+msgstr "🔤 Enter a name:"
+
+#: handlers/game.py:49
+msgid ""
+"⏳ Ожидание других игроков...\n"
+"ℹ️ Подключилось игроков: {ready_cnt}/{room_size}\n"
+"*️⃣ Список: \n"
+"{players}"
+msgstr ""
+" ⏳ Waiting for other players...\n"
+" ℹ️ Connected players: {ready_cnt}/{room_size}\n"
+" *️⃣ List: \n"
+"{players}"
+
+#: handlers/game.py:58
+msgid ""
+"✅ Все игроки подключились!\n"
+"*️⃣ Список: \n"
+"{players}"
+msgstr ""
+"✅ All players are connected!\n"
+"*️⃣ List: \n"
+"{players}"
+
+#: handlers/game.py:68
+msgid "🔄 Ожидайте других игроков..."
+msgstr "🔄 Expect other players..."
+
+#: handlers/game.py:79
+msgid "⏭ Следующий раунд!"
+msgstr "⏭ Next round!"
+
+#: handlers/game.py:91
+msgid "🏁 Игра закончена, можете начать новую!"
+msgstr "🏁 The game is over, you can start a new one!"
+
