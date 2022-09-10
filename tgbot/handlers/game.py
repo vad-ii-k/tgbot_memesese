@@ -1,7 +1,10 @@
+import logging
+
 from aiogram import Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 from aiogram.utils.i18n import gettext as _
+from pyppeteer import launch
 
 from tgbot.game.room import Player, GameRoom, SelectedCard
 from tgbot.keyboards.inline import get_keyboard_with_nums
@@ -70,8 +73,10 @@ async def meme_choice_handler(callback: CallbackQuery):
         if callback.from_user.id == player.id:
             room.selected_cards.append(SelectedCard(num=player.cards.pop(int(callback.data)-1), player_name=player.name))
             if len(room.selected_cards) == room.num_of_players:
-                await room.create_showdown_photo()
+                browser = await launch(defaultViewport={'width': 1000, 'height': 1100}, logLevel=logging.ERROR)
+                await room.create_showdown_photo(browser)
                 await room.send_image_all_players("data/compiled_html_pages/png/showdown.png")
+                await browser.close()
 
 
 @player_router.message(commands=["continue"], state="gaming")
@@ -79,10 +84,12 @@ async def next_card_draw(message: Message):
     await room.send_message_all_players("⏭ Следующий раунд!")
     room.selected_cards.clear()
     situation = room.situations_deck.pop()
+    browser = await launch(defaultViewport={'width': 1000, 'height': 1100}, logLevel=logging.ERROR)
     for player in room.players:
         player.cards.append(room.memes_deck.pop())
-        await room.create_player_side_view_photo(situation, player)
+        await room.create_player_side_view_photo(browser, situation, player)
         await room.send_player_side_view_message(player)
+    await browser.close()
 
 
 @player_router.message(commands=["finish_game"], state="gaming")

@@ -1,4 +1,6 @@
+import logging
 import os
+import time
 from dataclasses import dataclass
 from random import shuffle
 from typing import List
@@ -8,6 +10,7 @@ from aiogram.types import FSInputFile
 from aiogram.utils.i18n import gettext as _
 from jinja2 import Environment, FileSystemLoader
 from pyppeteer import launch
+from pyppeteer.browser import Browser
 
 from tgbot.keyboards.inline import get_keyboard_with_nums
 
@@ -48,12 +51,14 @@ class GameRoom:
         shuffle(self.situations_deck)
         await self.send_message_all_players("🔥 Игра началась!")
         situation = self.situations_deck.pop()
+        browser = await launch(defaultViewport={'width': 1000, 'height': 1100}, logLevel=logging.ERROR)
         for player in self.players:
             player.cards = [self.memes_deck.pop() for _i in range(6)]
-            await self.create_player_side_view_photo(situation, player)
+            await self.create_player_side_view_photo(browser, situation, player)
             await self.send_player_side_view_message(player)
+        await browser.close()
 
-    async def create_player_side_view_photo(self, situation: int, player: Player):
+    async def create_player_side_view_photo(self, browser: Browser, situation: int, player: Player):
         results_filename = f"data/compiled_html_pages/html/{player.id}.html"
         environment = Environment(loader=FileSystemLoader("data/html_templates"))
         results_template = environment.get_template("player_side_view.html")
@@ -67,8 +72,7 @@ class GameRoom:
                 cards_abspath=cards_abspath
             ))
 
-        browser_for_psv = await launch(defaultViewport={'width': 1000, 'height': 1100})
-        page_for_psv = await browser_for_psv.newPage()
+        page_for_psv = await browser.newPage()
         await page_for_psv.goto(f'file:///{os.path.abspath(f"data/compiled_html_pages/html/{player.id}.html")}')
         await page_for_psv.screenshot(
             path=f'data/compiled_html_pages/png/{player.id}.png',
@@ -76,7 +80,6 @@ class GameRoom:
             fullPage=True,
             quality=100
         )
-        await browser_for_psv.close()
 
     @staticmethod
     async def send_player_side_view_message(player: Player):
@@ -87,7 +90,7 @@ class GameRoom:
             caption=_("Выберите мем ⬇")
         )
 
-    async def create_showdown_photo(self):
+    async def create_showdown_photo(self, browser: Browser):
         results_filename = "data/compiled_html_pages/html/showdown.html"
         environment = Environment(loader=FileSystemLoader("data/html_templates"))
         results_template = environment.get_template("showdown_template.html")
@@ -96,8 +99,7 @@ class GameRoom:
         with open(results_filename, mode="w", encoding="utf-8") as results:
             results.write(results_template.render(memes=self.selected_cards, cards_abspath=cards_abspath))
 
-        browser_for_sd = await launch(defaultViewport={'width': 1000, 'height': 1100})
-        page_for_sd = await browser_for_sd.newPage()
+        page_for_sd = await browser.newPage()
         await page_for_sd.goto(f'file:///{os.path.abspath("data/compiled_html_pages/html/showdown.html")}')
         await page_for_sd.screenshot(
             path='data/compiled_html_pages/png/showdown.png',
@@ -105,4 +107,3 @@ class GameRoom:
             fullPage=True,
             quality=100
         )
-        await browser_for_sd.close()
