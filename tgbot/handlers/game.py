@@ -50,16 +50,12 @@ async def waiting_players(message: Message, state: FSMContext):
     await state.set_state("gaming")
     if len(room.players) < room.num_of_players:
         message_text = ("⏳ Ожидание других игроков...\n"
-                        "ℹ️ Подключилось игроков: {ready_cnt}/{room_size}\n"
-                        "*️⃣ Список: \n{players}").format(
-            ready_cnt=len(room.players),
-            room_size=room.num_of_players,
-            players=players_list
-        )
+                        f"ℹ️ Подключилось игроков: {len(room.players)}/{room.num_of_players}\n"
+                        f"*️⃣ Список: \n{players_list}")
         await room.send_message_all_players(message_text)
     else:
         message_text = ("✅ Все игроки подключились!\n"
-                        "*️⃣ Список: \n{players}").format(players=players_list)
+                        f"*️⃣ Список: \n{players_list}")
         await room.send_message_all_players(message_text)
         await room.init_card_draw()
 
@@ -71,7 +67,8 @@ async def meme_choice_handler(callback: CallbackQuery):
     await callback.answer(text=_("🔄 Ожидайте других игроков..."), cache_time=1)
     for player in room.players:
         if callback.from_user.id == player.id:
-            room.selected_cards.append(SelectedCard(num=player.cards.pop(int(callback.data)-1), player_name=player.name))
+            selected_card = SelectedCard(num=player.cards.pop(int(callback.data) - 1), player_name=player.name)
+            room.selected_cards.append(selected_card)
             if len(room.selected_cards) == room.num_of_players:
                 browser = await launch(defaultViewport={'width': 1000, 'height': 1100}, logLevel=logging.ERROR)
                 await room.create_showdown_photo(browser)
@@ -80,7 +77,7 @@ async def meme_choice_handler(callback: CallbackQuery):
 
 
 @player_router.message(commands=["continue"], state="gaming")
-async def next_card_draw(message: Message):
+async def next_card_draw(_message: Message):
     await room.send_message_all_players("⏭ Следующий раунд!")
     room.selected_cards.clear()
     situation = room.situations_deck.pop()
@@ -93,7 +90,7 @@ async def next_card_draw(message: Message):
 
 
 @player_router.message(commands=["finish_game"], state="gaming")
-async def finish_game(message: Message, state: FSMContext):
+async def finish_game(_message: Message, state: FSMContext):
     global room
     await room.send_message_all_players("🏁 Игра закончена, можете начать новую!")
     room = GameRoom()

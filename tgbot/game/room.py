@@ -1,6 +1,5 @@
 import logging
 import os
-import time
 from dataclasses import dataclass
 from random import shuffle
 from typing import List
@@ -33,8 +32,8 @@ class GameRoom:
     def __init__(self):
         self.room_is_active: bool = False
         self.players: List[Player] = []
-        self.memes_deck: List[int] = [i for i in range(200)]
-        self.situations_deck: List[int] = [i for i in range(100)]
+        self.memes_deck: List[int] = list(range(200))
+        self.situations_deck: List[int] = list(range(100))
         self.num_of_players: int = 0
         self.selected_cards: List[SelectedCard] = []
 
