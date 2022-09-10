@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-09-09 16:35+0300\n"
+"POT-Creation-Date: 2022-09-10 08:37+0300\n"
 "PO-Revision-Date: 2022-09-09 15:27+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,11 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.10.3\n"
 
-#: game/room.py:48
-msgid "🔥 Игра началась!"
-msgstr "🔥 The game has started!"
-
-#: game/room.py:78
+#: game/room.py:87
 msgid "Выберите мем ⬇"
 msgstr "Choose a meme ⬇"
 
@@ -46,37 +42,36 @@ msgstr "✅ The room has been created!"
 msgid "🔤 Введите имя:"
 msgstr "🔤 Enter a name:"
 
-#: handlers/game.py:49
-msgid ""
-"⏳ Ожидание других игроков...\n"
-"ℹ️ Подключилось игроков: {ready_cnt}/{room_size}\n"
-"*️⃣ Список: \n"
-"{players}"
-msgstr ""
-" ⏳ Waiting for other players...\n"
-" ℹ️ Connected players: {ready_cnt}/{room_size}\n"
-" *️⃣ List: \n"
-"{players}"
-
-#: handlers/game.py:58
-msgid ""
-"✅ Все игроки подключились!\n"
-"*️⃣ Список: \n"
-"{players}"
-msgstr ""
-"✅ All players are connected!\n"
-"*️⃣ List: \n"
-"{players}"
-
 #: handlers/game.py:68
 msgid "🔄 Ожидайте других игроков..."
 msgstr "🔄 Expect other players..."
 
-#: handlers/game.py:79
-msgid "⏭ Следующий раунд!"
-msgstr "⏭ Next round!"
+#~ msgid "🔥 Игра началась!"
+#~ msgstr "🔥 The game has started!"
 
-#: handlers/game.py:91
-msgid "🏁 Игра закончена, можете начать новую!"
-msgstr "🏁 The game is over, you can start a new one!"
+#~ msgid "⏭ Следующий раунд!"
+#~ msgstr "⏭ Next round!"
+
+#~ msgid "🏁 Игра закончена, можете начать новую!"
+#~ msgstr "🏁 The game is over, you can start a new one!"
+
+#~ msgid ""
+#~ "⏳ Ожидание других игроков...\n"
+#~ "ℹ️ Подключилось игроков: {ready_cnt}/{room_size}\n"
+#~ "*️⃣ Список: \n"
+#~ "{players}"
+#~ msgstr ""
+#~ " ⏳ Waiting for other players...\n"
+#~ " ℹ️ Connected players: {ready_cnt}/{room_size}\n"
+#~ " *️⃣ List: \n"
+#~ "{players}"
+
+#~ msgid ""
+#~ "✅ Все игроки подключились!\n"
+#~ "*️⃣ Список: \n"
+#~ "{players}"
+#~ msgstr ""
+#~ "✅ All players are connected!\n"
+#~ "*️⃣ List: \n"
+#~ "{players}"
 

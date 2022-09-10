@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-09-09 16:35+0300\n"
+"POT-Creation-Date: 2022-09-10 08:37+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.10.3\n"
 
-#: game/room.py:48
-msgid "🔥 Игра началась!"
-msgstr ""
-
-#: game/room.py:78
+#: game/room.py:87
 msgid "Выберите мем ⬇"
 msgstr ""
 
@@ -45,30 +41,7 @@ msgstr ""
 msgid "🔤 Введите имя:"
 msgstr ""
 
-#: handlers/game.py:49
-msgid ""
-"⏳ Ожидание других игроков...\n"
-"ℹ️ Подключилось игроков: {ready_cnt}/{room_size}\n"
-"*️⃣ Список: \n"
-"{players}"
-msgstr ""
-
-#: handlers/game.py:58
-msgid ""
-"✅ Все игроки подключились!\n"
-"*️⃣ Список: \n"
-"{players}"
-msgstr ""
-
 #: handlers/game.py:68
 msgid "🔄 Ожидайте других игроков..."
-msgstr ""
-
-#: handlers/game.py:79
-msgid "⏭ Следующий раунд!"
-msgstr ""
-
-#: handlers/game.py:91
-msgid "🏁 Игра закончена, можете начать новую!"
 msgstr ""
 

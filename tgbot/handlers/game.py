@@ -46,17 +46,17 @@ async def waiting_players(message: Message, state: FSMContext):
     players_list = '\n'.join(['  ➖  ' + player.name for player in room.players])
     await state.set_state("gaming")
     if len(room.players) < room.num_of_players:
-        message_text = _("⏳ Ожидание других игроков...\n"
-                         "ℹ️ Подключилось игроков: {ready_cnt}/{room_size}\n"
-                         "*️⃣ Список: \n{players}").format(
+        message_text = ("⏳ Ожидание других игроков...\n"
+                        "ℹ️ Подключилось игроков: {ready_cnt}/{room_size}\n"
+                        "*️⃣ Список: \n{players}").format(
             ready_cnt=len(room.players),
             room_size=room.num_of_players,
             players=players_list
         )
         await room.send_message_all_players(message_text)
     else:
-        message_text = _("✅ Все игроки подключились!\n"
-                         "*️⃣ Список: \n{players}").format(players=players_list)
+        message_text = ("✅ Все игроки подключились!\n"
+                        "*️⃣ Список: \n{players}").format(players=players_list)
         await room.send_message_all_players(message_text)
         await room.init_card_draw()
 
@@ -76,7 +76,7 @@ async def meme_choice_handler(callback: CallbackQuery):
 
 @player_router.message(commands=["continue"], state="gaming")
 async def next_card_draw(message: Message):
-    await room.send_message_all_players(_("⏭ Следующий раунд!"))
+    await room.send_message_all_players("⏭ Следующий раунд!")
     room.selected_cards.clear()
     situation = room.situations_deck.pop()
     for player in room.players:
@@ -88,6 +88,6 @@ async def next_card_draw(message: Message):
 @player_router.message(commands=["finish_game"], state="gaming")
 async def finish_game(message: Message, state: FSMContext):
     global room
-    await room.send_message_all_players(_("🏁 Игра закончена, можете начать новую!"))
+    await room.send_message_all_players("🏁 Игра закончена, можете начать новую!")
     room = GameRoom()
     await state.clear()

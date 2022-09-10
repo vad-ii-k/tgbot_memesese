@@ -6,8 +6,8 @@ from typing import List
 from aiogram.methods import send_message, send_photo
 from aiogram.types import FSInputFile
 from aiogram.utils.i18n import gettext as _
-from html2image import Html2Image
 from jinja2 import Environment, FileSystemLoader
+from pyppeteer import launch
 
 from tgbot.keyboards.inline import get_keyboard_with_nums
 
@@ -26,6 +26,7 @@ class SelectedCard:
 
 
 class GameRoom:
+
     def __init__(self):
         self.room_is_active: bool = False
         self.players: List[Player] = []
@@ -45,10 +46,10 @@ class GameRoom:
     async def init_card_draw(self):
         shuffle(self.memes_deck)
         shuffle(self.situations_deck)
-        await self.send_message_all_players(_("🔥 Игра началась!"))
+        await self.send_message_all_players("🔥 Игра началась!")
         situation = self.situations_deck.pop()
         for player in self.players:
-            player.cards = [self.memes_deck.pop() for i in range(6)]
+            player.cards = [self.memes_deck.pop() for _i in range(6)]
             await self.create_player_side_view_photo(situation, player)
             await self.send_player_side_view_message(player)
 
@@ -66,8 +67,16 @@ class GameRoom:
                 cards_abspath=cards_abspath
             ))
 
-        hti = Html2Image(size=(1000, 1100), output_path="data/compiled_html_pages/png/")
-        hti.screenshot(html_file=results_filename, save_as=f"{player.id}.png")
+        browser_for_psv = await launch(defaultViewport={'width': 1000, 'height': 1100})
+        page_for_psv = await browser_for_psv.newPage()
+        await page_for_psv.goto(f'file:///{os.path.abspath(f"data/compiled_html_pages/html/{player.id}.html")}')
+        await page_for_psv.screenshot(
+            path=f'data/compiled_html_pages/png/{player.id}.png',
+            type='jpeg',
+            fullPage=True,
+            quality=100
+        )
+        await browser_for_psv.close()
 
     @staticmethod
     async def send_player_side_view_message(player: Player):
@@ -87,5 +96,13 @@ class GameRoom:
         with open(results_filename, mode="w", encoding="utf-8") as results:
             results.write(results_template.render(memes=self.selected_cards, cards_abspath=cards_abspath))
 
-        hti = Html2Image(size=(1000, 900), output_path="data/compiled_html_pages/png/")
-        hti.screenshot(html_file=results_filename, save_as="showdown.png")
+        browser_for_sd = await launch(defaultViewport={'width': 1000, 'height': 1100})
+        page_for_sd = await browser_for_sd.newPage()
+        await page_for_sd.goto(f'file:///{os.path.abspath("data/compiled_html_pages/html/showdown.html")}')
+        await page_for_sd.screenshot(
+            path='data/compiled_html_pages/png/showdown.png',
+            type='jpeg',
+            fullPage=True,
+            quality=100
+        )
+        await browser_for_sd.close()
